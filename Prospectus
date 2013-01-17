@@ -1,0 +1,25 @@
+Prospectus
+Team Members
+Jake Gascho
+    Jake is a Computer Science major at Grand Valley State University who is proficient in Java and HTML/CSS.  Jake also has limited experience with other languages including C and C++.  Mobile development has always been a topic of interest for Jake and he is excited to have the opportunity to develop and Android application.  Having worked with web apps that deliver and store information from a client to a server, the idea of creating an application that can communicate with another device won’t be entirely foreign.  With a background of UI design and having experience with laying out websites and other interfaces, creating a front end portion of an application should be seamless.  Knowing Java, the only thing left to do will be to gain a broader understanding of developing native Android applications.
+
+Jacob Iott
+    Jacob Iott is also on the team. Like most CIS students at Grand Valley, his primary programming language is Java. He also has experience with C, C++, Ruby, Python, Lisp, and Visual Basic and he has recently picked up HTML. Hopefully, this will allow him to learn the language Android apps use for creating GUIs, since they have a similar structure. Unfortunately, Jacob has no experience creating apps for Android devices, nor has he even used an Android before now, so he has a lot to learn in order to make a significant contribution to the final product. However, he has plenty of experience using Eclipse, which has a plug-in available for creating Android apps, so he should have no trouble getting his environment set up himself. Jacob has also completed a course in computer networking in which he created the client and server for a chat program. Hopefully, this experience will be useful to the project, which has similar goals.
+
+Eric Saksa
+    Eric has experience programming in a multitude of languages including Java, C, C++, Lisp, Ruby, and Perl.  Lacking experience programming on the Android platform, Eric expects to learn this new skill.  Eric is interested in learning how to build applications for mobile devices, as this is a growing field in the industry.  The project at hand has two fundamental components: the user interface, and the networking aspect.  Eric has limited experience in both of these topics, and looks forward to combining his knowledge of both of these items in order to create a mobile application.  This is his first time working with Android, and he will thus be installing an Android software development kit that will allow him to emulate the function of a smartphone on a pc.  Eric looks forward to this project as an opportunity to use old skills and learn new ones. 
+
+Project Goals
+    The end goal of this project is to develop and deliver a complete, working Android application to the Google Play store.  The application will allow users to post pictures and post comments about pictures at various Grand Valley State University athletic facilities.  Some of the features that will be implemented are as follows:
+•  A fully working Android application
+•	Ability to share up to two photos
+•	Ability to comment on photos
+•	Filtering photos based on current location
+•	Filtering photos based on favorites
+•	Different UI views to handle these views/filters
+
+    These specifications will require the application to handle mDNS server architecture and the ability to cache photographs when accessed to help with access time and network usage.  This will require a backing UI that is user friendly to make the application easy to use.  It will be based on a prototype application that was previously developed by Motorola called “PicFlic”.  Drawing off of that initial design, we will want to implement different features and verbiage that will make the application more appropriate and tailored specifically towards the GVSU audience.
+    The application will be designed for GVSU athletic events and locations so there will be some filtering for the different arenas and venues around campus.  This will come into play in the filtering sense, allowing users to view specific portions of campus or simply around where they currently are.  Users should be able to create a list of favorite images to which they can navigate.
+
+Technical growth
+    This is the first Android application that any of the team members have ever attempted and as such will take a great deal of learning the Android platform.  This will include making sure the necessary files are included in the build and having the appropriate APIs and other factors affecting the environment.  Members will also need to learn to emulate devices and make sure the application is tested on different devices and do some user testing to evaluate the success of the application.  The other factors that will be necessary for team members to learn will be mDNS server structure and how to manage peer to peer sharing.  Understanding these protocols will be essential to the development of the application.
