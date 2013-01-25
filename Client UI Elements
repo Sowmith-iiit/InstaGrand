@@ -1,0 +1,22 @@
+InstaGrand
+Elements in the UI:
+1.	Picture Selector
+	a.	Title
+	b.	Select Location Dialog
+	c.	Next 10/Previous 10 Buttons
+	d.	List of Available Pictures
+		i.	Individual Items
+			1.	The Picture
+			2.	Picture description
+2.	Individual Picture Viewer
+	a.	Title
+	b.	The Image
+	c.	Description of Image
+	d.	View Map location button
+	e.	Flag as obscene button
+	f.	Comments about image
+	g.	Add Comment
+		i.	Enter Text Space
+		ii.	Submit button
+		h.	Comments about Image
+3.	Main Menu?
