@@ -23,6 +23,16 @@ public class PictureItem implements Parcelable {
 	private String description;
 	private String title;
 	
+	public static final Parcelable.Creator<PictureItem> CREATOR = new Parcelable.Creator<PictureItem>() {
+		public PictureItem createFromParcel(Parcel in) {
+			return new PictureItem(in);
+		}
+
+		public PictureItem[] newArray(int size) {
+				return new PictureItem[size];
+		}
+	};
+	
 	/**
 	 * Constructor for New Picture
 	 * @param u The Picture-Taker/Uploder's User name
@@ -79,6 +89,8 @@ public class PictureItem implements Parcelable {
 		location = coords;
 	}
 	
+	
+
 	/**
 	 * Adds a new comment
 	 * @param c the new comment
@@ -170,7 +182,41 @@ public class PictureItem implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		
+		dest.writeString(user);
+		dest.writeString(locName);
+		dest.writeString(location);
+		dest.writeString(description);
+		dest.writeParcelable(picture, flags);
+		dest.writeInt(comments.size());
+		for(int i = 0; i < comments.size(); i++){
+			dest.writeParcelable(comments.get(i), flags);
+		}
+		dest.writeInt(questions.size());
+		for(int i = 0; i < questions.size(); i++){
+			dest.writeParcelable(questions.get(i), flags);
+		}
 	}
+	
+	public PictureItem(Parcel in) {
+		// TODO Auto-generated constructor stub
+		user = in.readString();
+		locName = in.readString();
+		location = in.readString();
+		description = in.readString();
+		picture = (Bitmap) in.readParcelable(getClass().getClassLoader());
+		comments = new Vector<Comment>();
+		int coms = in.readInt();
+		while(coms > 0){
+			comments.add((Comment) in.readParcelable(getClass().getClassLoader()));
+			coms--;
+		}
+		questions = new Vector<Question>();
+		int quests = in.readInt();
+		while(quests > 0){
+			questions.add((Question) in.readParcelable(getClass().getClassLoader()));
+			quests--;
+		}
+	}
+	
+	
 }

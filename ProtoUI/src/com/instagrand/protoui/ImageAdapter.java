@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-public class ImageAdapter extends BaseAdapter{
+public class ImageAdapter extends BaseAdapter {
 	
 	private Context mContext;
 	
@@ -71,5 +71,6 @@ public class ImageAdapter extends BaseAdapter{
 	public PictureItem getPictureItem(int pos){
 		return mThumbIds[pos];
 	}
+
 
 }

@@ -26,7 +26,13 @@ public class PicCom extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		setPic (MainActivity.currPicture);
+		Bundle b = this.getIntent().getExtras();
+		PictureItem p = null;
+		if (b != null){
+			p = b.getParcelable("picItem");
+		}
+		setPic(p);
+		//setPic (MainActivity.currPicture);
 	}
 
 	

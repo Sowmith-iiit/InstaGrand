@@ -23,11 +23,11 @@ public class MainActivity extends Activity {
 	    gridview.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 	            //Toast.makeText(MainActivity.this, "" + position, Toast.LENGTH_SHORT).show();
-	        	//Bundle b = new Bundle();
+	        	Bundle b = new Bundle();
 	        	currPicture = (PictureItem) parent.getAdapter().getItem(position);
-	        	//b.putParcelable("picItem", b);
+	        	b.putParcelable("picItem", currPicture);
 	        	Intent intent = new Intent(MainActivity.this, PicCom.class);
-	        	//intent.putExtras(b);
+	        	intent.putExtras(b);
 	            startActivity(intent);
 	            
 	        }
