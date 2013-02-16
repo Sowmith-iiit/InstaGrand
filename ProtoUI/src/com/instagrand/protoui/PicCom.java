@@ -2,8 +2,12 @@ package com.instagrand.protoui;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class PicCom extends Activity {
@@ -15,11 +19,15 @@ public class PicCom extends Activity {
 		ImageView image = (ImageView) findViewById(R.id.imageView1);
 		image.setImageBitmap(pic.getPicture());
 		TextView title = (TextView) findViewById(R.id.textView1);
-		title.setText(p.getTitle());
+		title.setText(pic.getTitle());
+		TextView user = (TextView) findViewById(R.id.textView3);
+		user.setText("By " + pic.getUser());
 		TextView desc = (TextView) findViewById(R.id.textView2);
-		desc.setText(p.getDescription());
-		
-		
+		desc.setText(pic.getDescription());
+		ListView coms = (ListView) findViewById(R.id.listView1);
+		CommentAdapter theComs = new CommentAdapter(this);
+		theComs.setComments(pic.getComments());
+		coms.setAdapter(theComs);	
 	}
 	
 	@Override

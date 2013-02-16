@@ -182,6 +182,7 @@ public class PictureItem implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(title);
 		dest.writeString(user);
 		dest.writeString(locName);
 		dest.writeString(location);
@@ -199,6 +200,7 @@ public class PictureItem implements Parcelable {
 	
 	public PictureItem(Parcel in) {
 		// TODO Auto-generated constructor stub
+		title = in.readString();
 		user = in.readString();
 		locName = in.readString();
 		location = in.readString();

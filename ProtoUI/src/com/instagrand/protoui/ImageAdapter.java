@@ -1,6 +1,7 @@
 package com.instagrand.protoui;
 
 import java.io.File;
+import java.util.Vector;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -16,20 +17,28 @@ public class ImageAdapter extends BaseAdapter {
 	
 	private Context mContext;
 	
+	Vector<Comment> coms = new Vector<Comment>();
+	
 	public ImageAdapter(Context c){
 		mContext = c;
+		coms.add(new Comment("Bill", "He looks like my dog!"));
+		coms.add(new Comment("Ted", "I'll bet cats aren't afraid of him LOL"));
 	}
+	
+	
+	
+	
 
 	//private File theImage = new File("/sdcard/sample_0.jpg");
 	private PictureItem[] mThumbIds = {
-		new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_0.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_1.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_2.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_3.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog","Also, a cat!", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_4.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_5.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_6.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_7.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
+		new PictureItem("A Dog", "What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_0.jpg").getAbsolutePath()), coms, "Fieldhouse", "1 Campus Dr."),
+		new PictureItem("A Dog", "What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_1.jpg").getAbsolutePath()), coms, "Fieldhouse", "1 Campus Dr."),
+		new PictureItem("A Dog", "What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_2.jpg").getAbsolutePath()), coms, "Fieldhouse", "1 Campus Dr."),
+		new PictureItem("A Dog", "Also, a cat!", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_3.jpg").getAbsolutePath()), coms, "Fieldhouse", "1 Campus Dr."),
+		new PictureItem("A Dog", "What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_4.jpg").getAbsolutePath()), coms, "Fieldhouse", "1 Campus Dr."),
+		new PictureItem("A Dog", "What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_5.jpg").getAbsolutePath()), coms, "Fieldhouse", "1 Campus Dr."),
+		new PictureItem("A Dog", "What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_6.jpg").getAbsolutePath()), coms, "Fieldhouse", "1 Campus Dr."),
+		new PictureItem("A Dog", "What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_7.jpg").getAbsolutePath()), coms, "Fieldhouse", "1 Campus Dr."),
 	};
 	
 	@Override
