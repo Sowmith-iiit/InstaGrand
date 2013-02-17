@@ -220,5 +220,9 @@ public class PictureItem implements Parcelable {
 		}
 	}
 	
+	public void addComment(String u, String c){
+		comments.add(new Comment(u, c));
+	}
+	
 	
 }

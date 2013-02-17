@@ -5,7 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +30,9 @@ public class PicCom extends Activity {
 		ListView coms = (ListView) findViewById(R.id.listView1);
 		CommentAdapter theComs = new CommentAdapter(this);
 		theComs.setComments(pic.getComments());
-		coms.setAdapter(theComs);	
+		coms.setAdapter(theComs);
+		EditText newCom = (EditText) findViewById(R.id.editText1);
+		//getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 	
 	@Override
@@ -43,7 +48,17 @@ public class PicCom extends Activity {
 		//setPic (MainActivity.currPicture);
 	}
 
-	
+	public void postComment(View v){
+		EditText newCom = (EditText) findViewById(R.id.editText1);
+		if (!newCom.getText().toString().trim().equals("")){
+			pic.addComment("Anonymous", newCom.getText().toString());
+		}
+		newCom.setText("");
+		InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+		newCom.clearFocus();
+	}
+
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

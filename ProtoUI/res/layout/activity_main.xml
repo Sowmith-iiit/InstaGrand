@@ -49,6 +49,7 @@
         </EditText>
 
         <Button
+            android:onClick = "postComment"
             android:id="@+id/button1"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="match_parent"

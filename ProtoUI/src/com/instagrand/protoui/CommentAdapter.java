@@ -65,7 +65,7 @@ public class CommentAdapter extends BaseAdapter{
 			} else {
 				text = (TextView) convertView;
 			}
-			Comment theCom = comments.get(position);
+			Comment theCom = comments.get(comments.size() - 1 - position);
 			text.setText(theCom.getUser() + " - "+ theCom.getDate().getMonth() +"/" + theCom.getDate().getDate() + "/" + theCom.getDate().getYear() + "\n" + theCom.getComment());
 			return text;
 		}

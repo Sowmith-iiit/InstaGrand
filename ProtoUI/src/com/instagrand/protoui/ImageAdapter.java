@@ -68,7 +68,7 @@ public class ImageAdapter extends BaseAdapter {
 			imageView = new ImageView(mContext);
 			imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			imageView.setPadding(4, 4, 4, 4);
+			//imageView.setPadding(4, 4, 4, 4);
 		} else {
 			imageView = (ImageView) convertView;
 		}
@@ -80,6 +80,5 @@ public class ImageAdapter extends BaseAdapter {
 	public PictureItem getPictureItem(int pos){
 		return mThumbIds[pos];
 	}
-
 
 }

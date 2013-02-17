@@ -1,5 +1,6 @@
 package com.instagrand.protoui;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import android.os.Parcel;
@@ -55,7 +56,8 @@ public class Comment implements Parcelable{
 	public Comment(String u, String c){
 		user = u;
 		comment = c;
-		date = new Date();
+		Calendar cal = Calendar.getInstance();
+		date = new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
 	}
 	
 	public Comment(Parcel in) {
