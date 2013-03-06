@@ -3,8 +3,11 @@ package com.instagrand.protoui;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -12,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -27,6 +32,9 @@ public class PicCom extends Activity {
 	//The Adapter for the ListView of Questions associated with the picture
 	private QuestionAdapter theQuests;
 	
+	//True if image is taking up th entire screen
+	private boolean imageOpen = false;
+	
 	/**
 	 * Sets the Picture Item for this activity and updates all the elements accordingly.
 	 * @param p
@@ -35,23 +43,60 @@ public class PicCom extends Activity {
 		pic = p;
 		ImageView image = (ImageView) findViewById(R.id.imageView1);
 		image.setImageBitmap(pic.getPicture());
+		image.setOnClickListener(new OnClickListener() {
+			//Toggle whether the image gets the entire screen or not.
+			@Override
+			public void onClick(View v) {
+				RelativeLayout relLay1 = (RelativeLayout) findViewById(R.id.RelativeLayout1);
+				RelativeLayout relLay2 = (RelativeLayout) findViewById(R.id.RelativeLayout2);
+				if (!imageOpen){ //The image is not already taking up the entire screen
+					if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){ //In Landscape
+						relLay1.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 2f));
+						relLay2.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 0f));
+						
+					} else { //In Portrait
+						relLay1.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 0, 2f));
+						relLay2.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 0, 0f));
+					}
+					imageOpen = true;
+				} else { //The image is already taking up the entire screen
+					if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){//In Landscape
+						relLay1.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
+						relLay2.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
+						
+					} else {//In Portrate
+						relLay1.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 0, 1));
+						relLay2.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 0, 1));
+					}
+					
+					imageOpen = false;
+				}
+				
+			}
+			
+		});
 		TextView title = (TextView) findViewById(R.id.textView1);
 		title.setText(pic.getTitle());
 		TextView user = (TextView) findViewById(R.id.textView3);
 		user.setText("By " + pic.getUser());
-		TextView desc = (TextView) findViewById(R.id.textView2);
-		desc.setText(pic.getDescription());
+		//TextView desc = (TextView) findViewById(R.id.textView2);
+		//desc.setText(pic.getDescription());
 		ListView coms = (ListView) findViewById(R.id.listView1);
+		TextView des = new TextView(this);
+		des.setText(pic.getDescription());
+		coms.addHeaderView(des);
 		coms.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 	            //Toast.makeText(MainActivity.this, "" + position, Toast.LENGTH_SHORT).show();
-	        	QuestionAdapter quests = (QuestionAdapter) parent.getAdapter();
-	        	quests.setOpenQuestion(position);
-	        	Button pushBut = (Button) findViewById(R.id.button1);
-	        	if(quests.getOpenQuestion() == -1){
-	        		pushBut.setText("Post");
-	        	} else {
-	        		pushBut.setText("Reply");
+	        	if (position != 0){
+	        		//QuestionAdapter quests = (QuestionAdapter) parent.getAdapter();
+	        		theQuests.setOpenQuestion(position-1);
+	        		Button pushBut = (Button) findViewById(R.id.button1);
+	        		if(theQuests.getOpenQuestion() == -1){
+	        			pushBut.setText("Post");
+	        		} else {
+	        			pushBut.setText("Reply");
+	        		}
 	        	}
 	        }
 	    });

@@ -72,15 +72,13 @@ public class CommentAdapter extends BaseAdapter{
 			TextView text;
 			if(convertView == null) {
 				text = new TextView(mContext);
-				//text.setLayoutParams(new ListView.LayoutParams(85, 85));
+				
 				
 				text.setPadding(2, 2, 2, 2);
 			} else {
 				text = new TextView(mContext);
-				//text.setLayoutParams(new ListView.LayoutParams(85, 85));
 				
 				text.setPadding(2, 2, 2, 2);
-				//text = (TextView) convertView;
 			}
 			Comment theCom = comments.get(comments.size() - 1 - position);
 			text.setText(theCom.getUser() + " - "+ theCom.getDate().getMonth() +"/" + theCom.getDate().getDate() + "/" + theCom.getDate().getYear() + "\n" + theCom.getComment());

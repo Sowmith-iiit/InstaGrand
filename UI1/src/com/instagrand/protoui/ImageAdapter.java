@@ -23,7 +23,6 @@ public class ImageAdapter extends BaseAdapter {
 	private Context mContext;
 	
 	//A vector of questions for the statically created sample pictures
-	Vector<Question> coms = new Vector<Question>();
 	
 	/**Constructor to create the vectors of questions
 	 * 
@@ -31,29 +30,15 @@ public class ImageAdapter extends BaseAdapter {
 	 */
 	public ImageAdapter(Context c){
 		mContext = c;
-		coms.add(new Question("Bill", "He looks like my dog!"));
-		Vector<Comment> subComs = new Vector<Comment>();
-		Vector<Comment> subComs1 = new Vector<Comment>();
-		subComs1.add(new Comment("Maria", "Mine would be."));
-		subComs1.add(new Comment("Lee", "Scaredy Cat!"));
-		coms.add(new Question("Ted", "I'll bet cats aren't afraid of him LOL", new Date(), subComs1));
-		subComs = new Vector<Comment>();
-		subComs.add(new Comment("Fred", "Now I want Taco Bell"));
-		subComs.add(new Comment("George", "Dong!"));
-		coms.add(new Question("Jill", "Yo Quiero Taco Bell", new Date(), subComs));
+		
 	}
 	
-	//The static sample pictures
-	private PictureItem[] mThumbIds = {
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_0.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_1.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_2.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog", "Also, a cat!", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_3.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_4.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_5.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_6.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_7.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-	};
+	//The pictures displayed to the user
+	PictureItem[] mThumbIds;
+	
+	public void setImages(PictureItem[] pics){
+		mThumbIds = pics;
+	}
 	
 	/**
 	 * Returns the number of pictures

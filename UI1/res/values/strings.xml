@@ -22,5 +22,12 @@
     <string name="empty">" "</string>
     <string name="your_com">Your comment here</string>
     <string name="title_activity_pic_com">PicCom</string>
+    <color name ="white">#FFFFFF</color>
+    <string-array name = "locations_array">
+        <item>Location1</item>
+        <item>Location2</item>
+        <item>Location3</item>
+    </string-array>
+        <string name="upload">Upload Picture</string>
 
 </resources>

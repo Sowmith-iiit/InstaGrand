@@ -2,6 +2,7 @@ package com.instagrand.protoui;
 
 import java.util.Vector;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,16 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * Adapter to contain the questions in the PicCom activity.
+ * @author Jacob Iott
+ *
+ */
 public class QuestionAdapter extends BaseAdapter{
 		
 		//The Context
 		private Context mContext;
+		private final float scale;
 		
 		//List of Questions
 		private Vector<Question> questions;
@@ -27,6 +34,8 @@ public class QuestionAdapter extends BaseAdapter{
 		 */
 		public QuestionAdapter(Context c){
 			mContext = c;
+			scale = c.getResources().getDisplayMetrics().density;
+			
 		}
 		
 		/**
@@ -84,19 +93,31 @@ public class QuestionAdapter extends BaseAdapter{
 			ans.addView(text, 0);
 			if (openQuestion == position){
 				if (theCom.getAnswers().size() > 0){
+					int ind = 0;
 					for(int i = 0; i <theCom.getAnswers().size(); i++){
+						if (i > 0){ //Add a line between the items in the form of a view
+							View theLine = new View(mContext);
+							int pixels = (int) (1 * scale + 0.5f);
+							LinearLayout.LayoutParams linPar = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, pixels);
+							theLine.setLayoutParams(linPar);
+							theLine.setBackgroundColor(Color.parseColor("#000000"));
+							ind++;
+							ans.addView(theLine, ind);//ind++ or 1
+							
+						}
 						TextView anAns = new TextView(mContext);
 						anAns.setText(theCom.getAnswers().get(i).getUser() + " - "+ (theCom.getAnswers().get(i).getDate().getMonth() + 1)  +"/" + theCom.getAnswers().get(i).getDate().getDate() + "/" + theCom.getAnswers().get(i).getDate().getYear() + "\n" + theCom.getAnswers().get(i).getComment());
 						LinearLayout.LayoutParams ansPar = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-						ans.setLayoutParams(ansPar);
-						ans.addView(anAns, i+1);
+						anAns.setLayoutParams(ansPar);
+						ind++;
+						ans.addView(anAns, ind); //ind or 1
 					}
 				} else {
 					TextView anAns = new TextView(mContext);
 					anAns.setText("no answers");
 					LinearLayout.LayoutParams ansPar = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 					ans.setLayoutParams(ansPar);
-					ans.addView(anAns,1);
+					ans.addView(anAns); //ind or 1
 				}
 			}
 			
