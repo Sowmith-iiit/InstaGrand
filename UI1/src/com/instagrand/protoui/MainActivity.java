@@ -1,13 +1,19 @@
 package com.instagrand.protoui;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Vector;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore.Images.Media;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +27,7 @@ import android.widget.SpinnerAdapter;
 /**
  * This is the activity for the picture selector component of the instagrand app.
  * @author Jacob Iott
- * @version 1.0
+ * @version 1.1
  *
  */
 public class MainActivity extends Activity {
@@ -35,23 +41,25 @@ public class MainActivity extends Activity {
 	Vector<Question> coms = new Vector<Question>();
 	
 	//The adapter for the images
-	ImageAdapter theImages;
-	private PictureItem[] mThumbIds = {
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_0.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_1.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_2.jpg").getAbsolutePath()), "Location3", "1 Campus Dr."),
-		new PictureItem("A Dog", "Also, a cat!", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_3.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_4.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_5.jpg").getAbsolutePath()), "Location3", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_6.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."),
-		new PictureItem("A Dog", "What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_7.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."),
-	};
+	public static ImageAdapter theImages;
+	private static Vector<PictureItem> mThumbIds = new Vector<PictureItem>(); 
+	private static Spinner spinner;
+
 	
 	/**
 	 * Begins when the activity begins.
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		//Creates sample pictures
+		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_0.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."));
+		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_1.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."));
+		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_2.jpg").getAbsolutePath()), "Location3", "1 Campus Dr."));
+		mThumbIds.add(new PictureItem("A Dog", "Also, a cat!", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_3.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."));
+		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_4.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."));
+		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_5.jpg").getAbsolutePath()), "Location3", "1 Campus Dr."));
+		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_6.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."));
+		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_7.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."));
 		//Add Answers to the Questions
 		coms.add(new Question("Bill", "He looks like my dog!"));
 		Vector<Comment> subComs = new Vector<Comment>();
@@ -65,16 +73,16 @@ public class MainActivity extends Activity {
 		coms.add(new Question("Jill", "Yo Quiero Taco Bell", new Date(), subComs));
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pic_table);
-		Spinner spinner = (Spinner) findViewById(R.id.Spinner1);
+		spinner = (Spinner) findViewById(R.id.Spinner1);
 		//LocationDropDownAdapter locs = new LocationDropDownAdapter(this);
 		spinner.setAdapter(ArrayAdapter.createFromResource(this, R.array.locations_array, android.R.layout.simple_spinner_item));
 		GridView gridview = (GridView) findViewById(R.id.gridview);
 		theImages = new ImageAdapter(this);
 		//Change items in layout to match location
 		Vector<PictureItem> currentImages = new Vector<PictureItem>();
-		for (int i = 0; i < mThumbIds.length; i++){
-			if (mThumbIds[i].getLocationName().equals(spinner.getSelectedItem())){
-				currentImages.add(mThumbIds[i]);
+		for (int i = 0; i < mThumbIds.size(); i++){
+			if (mThumbIds.get(i).getLocationName().equals(spinner.getSelectedItem())){
+				currentImages.add(mThumbIds.get(i));
 			}
 		}
 		theImages.setImages((PictureItem[]) currentImages.toArray(new PictureItem[currentImages.size()]));
@@ -95,15 +103,17 @@ public class MainActivity extends Activity {
 	            
 	        }
 	    });
+	    
+	    
 	    spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View v, int position,long id) {
 				//Change items in layout to match location
 				Vector<PictureItem> currentImages = new Vector<PictureItem>();
-				for (int i = 0; i < mThumbIds.length; i++){
-					if (mThumbIds[i].getLocationName().equals(parent.getSelectedItem())){
-						currentImages.add(mThumbIds[i]);
+				for (int i = 0; i < mThumbIds.size(); i++){
+					if (mThumbIds.get(i).getLocationName().equals(parent.getSelectedItem())){
+						currentImages.add(mThumbIds.get(i));
 					}
 				}
 				theImages.setImages((PictureItem[]) currentImages.toArray(new PictureItem[currentImages.size()]));
@@ -118,6 +128,32 @@ public class MainActivity extends Activity {
 	    	
 	    });
 	    
+	    
+	}
+	
+	/**
+	 * Adds an image to the vector of images 
+	 * @param p
+	 */
+	public static void addImage(PictureItem p){
+		mThumbIds.add(p);
+		Vector<PictureItem> currentImages = new Vector<PictureItem>();
+		for (int i = 0; i < mThumbIds.size(); i++){
+			if (mThumbIds.get(i).getLocationName().equals(spinner.getSelectedItem())){
+				currentImages.add(mThumbIds.get(i));
+			}
+		}
+		theImages.setImages((PictureItem[]) currentImages.toArray(new PictureItem[currentImages.size()]));
+		theImages.notifyDataSetChanged();
+	}
+	
+	/**
+	 * Starts the upload picture activity
+	 * @param v
+	 */
+	public void uploadPic(View v){
+		Intent intent = new Intent(MainActivity.this, Upload.class);
+        startActivity(intent);
 	}
 	
 	/**

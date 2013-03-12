@@ -125,12 +125,24 @@ public class PictureItem implements Parcelable {
 	public Vector<Question> getQuestions(){
 		return questions;
 	}
+	
+	public void setPicture(Bitmap b){
+		picture = b;
+	}
 	/**
 	 * Returns the picture
 	 * @return the picture
 	 */
 	public Bitmap getPicture(){
 		return picture;
+	}
+	
+	/**
+	 * sets the name of the Location in which the picture was taken
+	 * @return
+	 */
+	public void setLocationName(String loc){
+		locName = loc;
 	}
 	
 	/**
@@ -274,6 +286,14 @@ public class PictureItem implements Parcelable {
 	 */
 	public void addQuestion(String u, String c){
 		questions.add(new Question(u, c));
+	}
+	
+	/**
+	 * Set the picture's user
+	 * @param theUse
+	 */
+	public void setUser(String theUse) {
+		user = theUse;
 	}
 	
 	

@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="@string/upload" />
+        android:text="@string/upload" 
+        android:onClick="uploadPic"/>
 
     <GridView
         android:id="@+id/gridview"
