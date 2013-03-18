@@ -36,5 +36,8 @@
     <string name="select_image">Select Image</string>
     <string name="title">Title</string>
     <string name="desc">Description</string>
+    <string name="openFile">Open File</string>
+    <string name="useCamera">Use Camera</string>
+    <string name="or">or</string>
 
 </resources>

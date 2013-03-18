@@ -3,12 +3,17 @@ package com.instagrand.protoui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,10 +21,8 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
 /**
@@ -30,11 +33,19 @@ import android.support.v4.app.NavUtils;
  */
 public class Upload extends Activity {
 	
+	private static final int CAMERA_PIC_REQUEST = 1338;
+	
 	//The image to be uploaded
-	Bitmap theImage;
+	private Bitmap theImage;
 	
 	//The pictureItem to be sent back to the main activity
-	PictureItem thePic = new PictureItem(null, null, null, null, null, null);
+	private PictureItem thePic = new PictureItem(null, null, null, null, null, null);
+	
+	//The uri of the image taken by the camera
+	private Uri mCapturedImageURI;
+	
+	//True if the picture has been uploaded
+	private boolean uploaded = false;
 
 	/**
 	 * Executes when the activity is created
@@ -44,6 +55,16 @@ public class Upload extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upload);
 		ImageView image = (ImageView) findViewById(R.id.imageView1);
+		try {
+			theImage = (Bitmap) savedInstanceState.getParcelable("image");
+		} catch (NullPointerException npe){
+			theImage = null;
+		}
+		try {
+			mCapturedImageURI = (Uri) savedInstanceState.getParcelable("uri");
+		} catch (NullPointerException npe){
+			mCapturedImageURI = null;
+		}
 		image.setImageBitmap(theImage);
 		Spinner loc = (Spinner) findViewById(R.id.spinner1);
 		loc.setAdapter(ArrayAdapter.createFromResource(this, R.array.locations_array, android.R.layout.simple_spinner_item));
@@ -55,7 +76,6 @@ public class Upload extends Activity {
 		
 	}
 
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -74,6 +94,17 @@ public class Upload extends Activity {
 	}
 	
 	/**
+	 * Called whenever the activity ends
+	 */
+	public void onDestroy(){
+		if(!uploaded){
+			theImage.recycle();
+			theImage = null;
+		}
+		super.onDestroy();
+	}
+	
+	/**
 	 * Sends the picture back to the main activity
 	 * @param v
 	 */
@@ -82,6 +113,11 @@ public class Upload extends Activity {
 		EditText titleText = (EditText) findViewById(R.id.editText1);
 		EditText desText = (EditText) findViewById(R.id.editText2);
 		Spinner loc = (Spinner) findViewById(R.id.spinner1);
+		if (theImage != null){
+			thePic.setPicture(theImage);
+		} else {
+			notReady = true;
+		}
 		if (!titleText.getText().toString().trim().equals("")){
 			thePic.setTitle(titleText.getText().toString());
 		} else {
@@ -99,19 +135,36 @@ public class Upload extends Activity {
 		Log.i("Upload.java", "notReady: " + notReady);
 		if (!notReady){
 			MainActivity.addImage(thePic);
-			Intent data = new Intent();
+			uploaded = true;
 			finish();
 		}
 		
 	}
 	
 	/**
-	 * Accepts the choice of picture from the picture picker
+	 * Accepts the choice of picture from the picture picker or the picture taken from the camera.
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 	    super.onActivityResult(requestCode, resultCode, data);
-	    if (resultCode == RESULT_OK)
+	    if (requestCode == CAMERA_PIC_REQUEST && resultCode == RESULT_OK){ //If this is the camera activity
+	        String[] projection = { MediaStore.Images.Media.DATA };
+	        Cursor cursor = managedQuery(mCapturedImageURI, projection, null, null, null);
+	        int column_index_data = cursor
+	                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	        cursor.moveToFirst();
+	        String capturedImageFilePath = cursor.getString(column_index_data);
+	        if(theImage != null){
+	        	theImage.recycle();
+	        	theImage = null;
+	        }
+	        theImage = BitmapFactory.decodeFile(capturedImageFilePath);
+	        ImageView image = (ImageView) findViewById(R.id.imageView1);
+			image.setImageBitmap(theImage);
+			thePic.setPicture(theImage);
+			
+	    }
+	    else if (resultCode == RESULT_OK) //if this is the picture selector activity
 	    {
 	        Uri chosenImageUri = data.getData();
 
@@ -128,9 +181,27 @@ public class Upload extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        }
+	    }
+	    
 	}
-
+	
+	/**
+	 * Initiates the camera activity to take a picture
+	 * @param v
+	 */
+	public void takePic(View v) {
+		try {
+		    String fileName = "temp.jpg";
+		    ContentValues values = new ContentValues();
+		    values.put(MediaStore.Images.Media.TITLE, fileName);
+		    mCapturedImageURI = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+		    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		    intent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
+		    startActivityForResult(intent, CAMERA_PIC_REQUEST);
+		} catch (Exception e) {
+		    Log.e("", "", e);
+		}
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -147,6 +218,14 @@ public class Upload extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	/**
+	 * Necessary to preserve the image when flipped.
+	 */
+	protected void onSaveInstanceState(Bundle outState){
+		outState.putParcelable("image", theImage); // These variables would otherwise be lost
+		outState.putParcelable("uri", mCapturedImageURI);
 	}
 
 }

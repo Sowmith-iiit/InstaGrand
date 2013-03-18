@@ -42,7 +42,9 @@ public class MainActivity extends Activity {
 	
 	//The adapter for the images
 	public static ImageAdapter theImages;
+	//The array of picture Items is now a vector
 	private static Vector<PictureItem> mThumbIds = new Vector<PictureItem>(); 
+	//The spinner
 	private static Spinner spinner;
 
 	
@@ -52,14 +54,16 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		//Creates sample pictures
-		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_0.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."));
-		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_1.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."));
-		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_2.jpg").getAbsolutePath()), "Location3", "1 Campus Dr."));
-		mThumbIds.add(new PictureItem("A Dog", "Also, a cat!", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_3.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."));
-		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_4.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."));
-		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_5.jpg").getAbsolutePath()), "Location3", "1 Campus Dr."));
-		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_6.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."));
-		mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_7.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."));
+		if (mThumbIds.size() == 0){
+			mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_0.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."));
+			mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_1.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."));
+			mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_2.jpg").getAbsolutePath()), "Location3", "1 Campus Dr."));
+			mThumbIds.add(new PictureItem("A Dog", "Also, a cat!", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_3.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."));
+			mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_4.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."));
+			mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_5.jpg").getAbsolutePath()), "Location3", "1 Campus Dr."));
+			mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", coms, BitmapFactory.decodeFile(new File("/sdcard/sample_6.jpg").getAbsolutePath()), "Location1", "1 Campus Dr."));
+			mThumbIds.add(new PictureItem("A Dog", "What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_7.jpg").getAbsolutePath()), "Location2", "1 Campus Dr."));
+		}
 		//Add Answers to the Questions
 		coms.add(new Question("Bill", "He looks like my dog!"));
 		Vector<Comment> subComs = new Vector<Comment>();

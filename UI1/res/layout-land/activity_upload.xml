@@ -24,15 +24,35 @@
             android:layout_height="0dp"
             android:layout_weight="1" >
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/or"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
             <Button
                 android:id="@+id/button2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@id/textView4"
+                android:onClick="selectPic"
+                android:text="@string/openFile" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:onClick="selectPic"
-                android:text="@string/select_image" />
+                android:layout_toRightOf="@id/textView4"
+                android:onClick="takePic"
+                android:text="@string/useCamera" />
+            
         </RelativeLayout>
 
         <LinearLayout

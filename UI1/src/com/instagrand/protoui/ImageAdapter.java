@@ -1,11 +1,6 @@
 package com.instagrand.protoui;
 
-import java.io.File;
-import java.util.Date;
-import java.util.Vector;
-
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
