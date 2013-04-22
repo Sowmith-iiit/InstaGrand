@@ -1,5 +1,6 @@
 package com.instagrand.protoui;
 
+import java.util.Random;
 import java.util.Vector;
 
 import android.graphics.Bitmap;
@@ -22,7 +23,12 @@ public class PictureItem implements Parcelable {
 	private String location;
 	private String description;
 	private String title;
+	private int id = 0;
+	Random randomGenerator = new Random();
 	
+	/**
+	 * Created to implement Parcelable
+	 */
 	public static final Parcelable.Creator<PictureItem> CREATOR = new Parcelable.Creator<PictureItem>() {
 		public PictureItem createFromParcel(Parcel in) {
 			return new PictureItem(in);
@@ -41,6 +47,8 @@ public class PictureItem implements Parcelable {
 	 * @param coords The String given to Google maps to find this picture's location
 	 */
 	public PictureItem(String t, String d, String u, Bitmap bm, String ln, String coords){
+		if(id == 0)
+			id = randomGenerator.nextInt(1000000) + 1;
 		title = t;
 		description = d;
 		user = u;
@@ -60,6 +68,8 @@ public class PictureItem implements Parcelable {
 	 * @param coords The String given to Google maps to find this picture's location
 	 */
 	public PictureItem(String t, String d, String u, Bitmap bm, Vector<Comment> coms, String ln, String coords){
+		if(id == 0)
+			id = randomGenerator.nextInt(1000000) + 1;
 		title = t;
 		description = d;
 		user = u;
@@ -79,6 +89,8 @@ public class PictureItem implements Parcelable {
 	 * @param coords The String given to Google maps to find this picture's location
 	 */
 	public PictureItem(String t, String d, String u, Vector<Question> quest, Bitmap bm,  String ln, String coords){
+		if(id == 0)
+			id = randomGenerator.nextInt(1000000) + 1;
 		title = t;
 		description = d;
 		user = u;
@@ -122,12 +134,24 @@ public class PictureItem implements Parcelable {
 	public Vector<Question> getQuestions(){
 		return questions;
 	}
+	
+	public void setPicture(Bitmap b){
+		picture = b;
+	}
 	/**
 	 * Returns the picture
 	 * @return the picture
 	 */
 	public Bitmap getPicture(){
 		return picture;
+	}
+	
+	/**
+	 * sets the name of the Location in which the picture was taken
+	 * @return
+	 */
+	public void setLocationName(String loc){
+		locName = loc;
 	}
 	
 	/**
@@ -162,24 +186,43 @@ public class PictureItem implements Parcelable {
 		return description;
 	}
 	
+	/**
+	 * Returns the title of the picture
+	 * @return
+	 */
 	public String getTitle(){
 		return title;
 	}
 	
+	/**
+	 * Sets the title of the Picture
+	 * @param titl
+	 */
 	public void setTitle(String titl) {
 		title = titl;
 	}
 	
+	/**
+	 * Sets the image's Description
+	 * @param desc
+	 */
 	public void setDescription(String desc){
 		description = desc;
 	}
 
+	
+	/**
+	 * Required to implement parcelable
+	 */
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * Creates a Parcel out of the instance.
+	 */
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(title);
@@ -198,6 +241,10 @@ public class PictureItem implements Parcelable {
 		}
 	}
 	
+	/**
+	 * Constructor to create a PictureItem from a Parcel
+	 * @param in
+	 */
 	public PictureItem(Parcel in) {
 		// TODO Auto-generated constructor stub
 		title = in.readString();
@@ -207,22 +254,63 @@ public class PictureItem implements Parcelable {
 		description = in.readString();
 		picture = (Bitmap) in.readParcelable(getClass().getClassLoader());
 		comments = new Vector<Comment>();
+		comments = new Vector<Comment>();
+		questions = new Vector<Question>();
 		int coms = in.readInt();
+		Object theNext;
 		while(coms > 0){
-			comments.add((Comment) in.readParcelable(getClass().getClassLoader()));
+			theNext = in.readParcelable(getClass().getClassLoader());
+			if (theNext instanceof Comment){
+				comments.add((Comment) theNext);
+			} else if (theNext instanceof Question){
+				questions.add((Question) theNext);
+			}
 			coms--;
 		}
-		questions = new Vector<Question>();
 		int quests = in.readInt();
 		while(quests > 0){
-			questions.add((Question) in.readParcelable(getClass().getClassLoader()));
+			theNext = in.readParcelable(getClass().getClassLoader());
+			if (theNext instanceof Comment){
+				comments.add((Comment) theNext);
+			} else if (theNext instanceof Question){
+				questions.add((Question) theNext);
+			}
 			quests--;
 		}
 	}
 	
+	/**
+	 * Add a new comment to the picture
+	 * @param u
+	 * @param c
+	 */
 	public void addComment(String u, String c){
 		comments.add(new Comment(u, c));
 	}
 	
+	/**
+	 * Add a new Question to the picture
+	 * @param u
+	 * @param c
+	 */
+	public void addQuestion(String u, String c){
+		questions.add(new Question(u, c));
+	}
+	
+	/**
+	 * Set the picture's user
+	 * @param theUse
+	 */
+	public void setUser(String theUse) {
+		user = theUse;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 }

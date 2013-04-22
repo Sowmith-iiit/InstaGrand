@@ -4,19 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/Spinner1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="@string/location"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
+        android:gravity="center_horizontal" />
+    
     <GridView
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/textView4"
+        android:layout_above="@id/button1"
+        android:layout_below="@+id/Spinner1"
         android:columnWidth="90dp"
         android:gravity="center"
         android:horizontalSpacing="10dp"
@@ -25,5 +25,24 @@
         android:verticalSpacing="10dp" >
 
     </GridView>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/button2"
+        android:onClick="uploadPic"
+        android:text="@string/upload" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/gridview"
+        android:text="@string/refresh" 
+        android:onClick="clickConnect" />
 
 </RelativeLayout>

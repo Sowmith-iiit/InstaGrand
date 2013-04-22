@@ -1,8 +1,8 @@
 package com.instagrand.protoui;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Vector;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -13,10 +13,12 @@ import android.os.Parcelable;
  */
 public class Question extends Comment implements Parcelable{
 
-	
-	
+	//The answers to the question
 	private Vector<Comment> answers;
 	
+	/**
+	 * Required to implement parcelable
+	 */
 	public static final Parcelable.Creator<Comment> CREATOR = new Parcelable.Creator<Comment>() {
 		public Comment createFromParcel(Parcel in) {
 			return new Comment(in);
@@ -26,8 +28,6 @@ public class Question extends Comment implements Parcelable{
 				return new Comment[size];
 		}
 	};
-	
-	
 	
 	/**
 	 * Constructor for new Questions
@@ -39,6 +39,10 @@ public class Question extends Comment implements Parcelable{
 		answers = new Vector<Comment>();
 	}
 	
+	/**
+	 * Constructs the instance from a parcel
+	 * @param in
+	 */
 	public Question(Parcel in){
 		super("new", "new");
 		String u = in.readString();
@@ -49,12 +53,14 @@ public class Question extends Comment implements Parcelable{
 		int day = in.readInt();
 		int year = in.readInt();
 		setDate(year, month, day);
-		int coms = in.readInt();
+		//int coms = in.readInt();
+		Comment[] arr = (Comment[]) in.readArray(Comment[].class.getClassLoader());
 		answers = new Vector<Comment>();
-		while(coms > 0){
-			answers.add((Comment) in.readParcelable(getClass().getClassLoader()));
-			coms--;
-		}
+		answers.addAll(Arrays.asList(arr));
+		//while(coms > 0){
+		//	answers.add((Comment) in.readParcelable(getClass().getClassLoader()));
+		//	coms--;
+		//}
 	}
 	
 	/**
@@ -88,6 +94,9 @@ public class Question extends Comment implements Parcelable{
 		answers.add(a);
 	}
 	
+	/**
+	 * Converts the instance to a parcel
+	 */
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(getUser());
@@ -95,10 +104,12 @@ public class Question extends Comment implements Parcelable{
 		dest.writeInt(getDate().getMonth());
 		dest.writeInt(getDate().getDate());
 		dest.writeInt(getDate().getYear());
-		dest.writeInt(answers.size());
-		for(int i = 0; i < answers.size(); i++){
-			dest.writeParcelable(answers.get(i), flags);
-		}
+		Comment[] arr = answers.toArray(new Comment[answers.size()]);
+		dest.writeArray(arr);
+		//dest.writeInt(answers.size());
+		//for(int i = 0; i < answers.size(); i++){
+		//	dest.writeParcelable(answers.get(i), flags);
+		//}
 	}
 	
 	
@@ -108,6 +119,15 @@ public class Question extends Comment implements Parcelable{
 	 */
 	public Vector<Comment> getAnswers(){
 		return answers;
+	}
+	
+	/**
+	 * Adds a new answer to the list of answers
+	 * @param u
+	 * @param c
+	 */
+	public void addAnswer(String u, String c){
+		answers.add(new Comment(u, c));
 	}
 
 }

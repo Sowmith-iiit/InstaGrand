@@ -26,6 +26,9 @@ public class Comment implements Parcelable{
 		}
 	};
 		
+	/**
+	 * Create Parcel from instance
+	 */
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(user);
@@ -60,6 +63,10 @@ public class Comment implements Parcelable{
 		date = new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
 	}
 	
+	/**
+	 * Constructor for creating comments from parcels
+	 * @param in
+	 */
 	public Comment(Parcel in) {
 		user = in.readString();
 		comment = in.readString();
@@ -70,17 +77,24 @@ public class Comment implements Parcelable{
 	}
 
 	/**
-	 * Returns the author's name
+	 * Returns the author's user name
 	 * @return the user name
 	 */
 	public String getUser(){
 		return user;
 	}
 	
+	/**
+	 * Sets the author's user name
+	 * @param u
+	 */
 	public void setUser(String u){
 		user = u;
 	}
 	
+	/**
+	 * Sets the comment
+	 */
 	public void setComment(String c){
 		comment = c;
 	}
@@ -101,10 +115,19 @@ public class Comment implements Parcelable{
 		return date;
 	}
 	
+	/**
+	 * Sets the date of the comment
+	 * @param m The month
+	 * @param d The day
+	 * @param y The year
+	 */
 	public void setDate(int m, int d, int y){
 		date = new Date(m,d,y);
 	}
 
+	/**
+	 * Created from implementing ParcelAble
+	 */
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub

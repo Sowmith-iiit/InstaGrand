@@ -4,71 +4,86 @@ import java.util.Vector;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * Adapter for a ListView with Comments
+ * @author Jacob Iott
+ * @version 1.0
+ *
+ */
 public class CommentAdapter extends BaseAdapter{
 		
+		//The Context
 		private Context mContext;
+		
+		//The Comments
 		private Vector<Comment> comments;
 		
+		/**Default Constructor
+		 * 
+		 * @param c
+		 */
 		public CommentAdapter(Context c){
 			mContext = c;
 		}
 		
+		/**
+		 * Set the comments
+		 */
 		public void setComments(Vector<Comment> c){
 			comments = c;
 		}
-
-		//private File theImage = new File("/sdcard/sample_0.jpg");
+		
 		/**
-		private PictureItem[] mThumbIds = {
-			new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_0.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-			new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_1.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-			new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_2.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-			new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_3.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-			new PictureItem("A Dog","Also, a cat!", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_4.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-			new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_5.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-			new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_6.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-			new PictureItem("A Dog","What else do you want to know?", "Bill", BitmapFactory.decodeFile(new File("/sdcard/sample_7.jpg").getAbsolutePath()), "Fieldhouse", "1 Campus Dr."),
-		};
-		*/
+		 * Returns the number of comments
+		 */
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
 			return comments.size();
 		}
 		
-		
-
+		/**
+		 * Returns the comment at the given index
+		 */
 		@Override
 		public Object getItem(int arg0) {
 			// TODO Auto-generated method stub
 			return comments.get(arg0);
 		}
 
+		/**
+		 * Created from implementing BaseAdapter
+		 */
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
+		/**
+		 * Returns the view at the specified position. Used by the ListView to get the view for each position
+		 */
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			TextView text;
 			if(convertView == null) {
 				text = new TextView(mContext);
-				//text.setLayoutParams(new ListView.LayoutParams(85, 85));
+				
 				
 				text.setPadding(2, 2, 2, 2);
 			} else {
-				text = (TextView) convertView;
+				text = new TextView(mContext);
+				
+				text.setPadding(2, 2, 2, 2);
 			}
 			Comment theCom = comments.get(comments.size() - 1 - position);
 			text.setText(theCom.getUser() + " - "+ theCom.getDate().getMonth() +"/" + theCom.getDate().getDate() + "/" + theCom.getDate().getYear() + "\n" + theCom.getComment());
+			AbsListView.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+			text.setLayoutParams(params);
 			return text;
 		}
-		
-
 }
