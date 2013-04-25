@@ -327,7 +327,7 @@ public class ChatConnection {
                             Log.d(CLIENT_TAG, "Currently " + pictures.size() + " elements in the Array of images.");
                             
                             //activity.addToPicturesList(pictures);
-                            pictures = activity.getPicturesList();
+                            //pictures = activity.getPicturesList();
                             pictures.add(test);
                             Log.d(CLIENT_TAG, "After adding one, there are " + pictures.size() + " elements in the Array of images.");
                             
